@@ -1,0 +1,51 @@
+# --- SISTEMA OPERATIVO ---
+.DS_Store
+Thumbs.db
+*.log
+
+# --- IDEs y EDITORES ---
+.vscode/
+.idea/
+*.swp
+
+# --- DEPENDENCIAS (Nunca subir esto, pesa mucho) ---
+# Node.js
+node_modules/
+npm-debug.log
+yarn-error.log
+build/
+dist/
+
+# Python
+__pycache__/
+*.py[cod]
+venv/
+env/
+.pytest_cache/
+
+# Java
+target/
+*.class
+
+# --- SEGURIDAD Y VARIABLES DE ENTORNO (¡MUY IMPORTANTE!) ---
+# Nunca subir archivos con contraseñas reales
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# --- AWS / CLOUD ---
+# Archivos de credenciales descargados del Learner Lab
+aws_credentials.cfg
+credentials.csv
+*.pem
+.aws/
+
+# Serverless framework (si lo usan)
+.serverless/
+
+# --- OTROS ---
+# Archivos temporales o backups
+*.bak
+*.tmp

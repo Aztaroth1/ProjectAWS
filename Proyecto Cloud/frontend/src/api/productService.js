@@ -43,5 +43,35 @@ export async function createOrder(orderData) {
     throw error;
   }
 }
+function getAuthHeader() {
+    const token = localStorage.getItem('token');
+    return { 
+        headers: { 
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'multipart/form-data' // Importante para subir archivos
+        } 
+    };
+}
+
+// 5. Crear Producto (Admin)
+export async function createProduct(formData) {
+    const response = await axios.post(`${api.defaults.baseURL}/products`, formData, getAuthHeader());
+    return response.data;
+}
+
+// 6. Eliminar Producto (Admin)
+export async function deleteProduct(id) {
+    // Para delete no necesitamos multipart, pero sí el token
+    const token = localStorage.getItem('token');
+    await axios.delete(`${api.defaults.baseURL}/products/${id}`, {
+        headers: { 'Authorization': `Bearer ${token}` }
+    });
+}
+
+// 7. Actualizar Producto (Admin)
+export async function updateProduct(id, formData) {
+    const response = await axios.put(`${api.defaults.baseURL}/products/${id}`, formData, getAuthHeader());
+    return response.data;
+}
 
 // Aquí irán otras funciones (crear, actualizar, eliminar...)

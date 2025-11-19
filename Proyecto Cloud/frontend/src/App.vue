@@ -1,53 +1,246 @@
 <script setup>
 import { RouterLink, RouterView } from 'vue-router';
-import { useCartStore } from '@/stores/cart'; // Importamos el Store
+import { useCartStore } from '@/stores/cart';
+import { useAuthStore } from '@/stores/auth';
+import { useProductStore } from '@/stores/products'; // <--- 1. IMPORTAR STORE DE PRODUCTOS
 
-const cartStore = useCartStore(); // Inicializamos el Store
+const cartStore = useCartStore();
+const authStore = useAuthStore();
+const productStore = useProductStore(); // <--- 2. INICIALIZAR STORE
 </script>
 
 <template>
-  <header>
-    <div class="wrapper">
-      <nav class="main-nav">
-        <RouterLink to="/">Inicio</RouterLink>
+  <div class="app-layout">
+    <header class="main-header">
+      <div class="header-container">
         
-        <RouterLink to="/cart" class="cart-link">
-          🛒 Carrito ({{ cartStore.totalItems }})
-        </RouterLink>
-      </nav>
-    </div>
-  </header>
+        <div class="header-left">
+          <RouterLink to="/" class="brand-logo">
+            <span class="logo-icon">📦</span>
+            <span class="logo-text">MiShop</span>
+          </RouterLink>
+        </div>
 
-  <RouterView />
+        <div class="header-search">
+          <div class="search-wrapper">
+            <input 
+              type="text" 
+              placeholder="Buscar productos..." 
+              class="search-input" 
+              v-model="productStore.searchQuery"
+            />
+            <button class="search-btn">🔍</button>
+          </div>
+        </div>
+
+        <div class="header-right">
+          
+          <div v-if="authStore.user" class="nav-item user-dropdown">
+            <small>Hola, {{ authStore.user.name }}</small>
+            <div class="account-text">Cuenta y Listas</div>
+            
+            <div class="dropdown-content">
+              <RouterLink v-if="authStore.user.role === 'admin'" to="/admin">⚙️ Panel Admin</RouterLink>
+              <a @click="authStore.logout">Cerrar Sesión</a>
+            </div>
+          </div>
+
+          <RouterLink v-else to="/login" class="nav-item">
+            <small>Hola, identifícate</small>
+            <div class="account-text">Cuenta y Listas</div>
+          </RouterLink>
+
+          <RouterLink to="/cart" class="nav-item cart-item">
+            <div class="cart-icon-wrapper">
+              <span class="cart-icon">🛒</span>
+              <span class="cart-count">{{ cartStore.totalItems }}</span>
+            </div>
+            <span class="cart-text">Cesta</span>
+          </RouterLink>
+        </div>
+      </div>
+      
+    </header>
+
+    <RouterView />
+  </div>
 </template>
 
+<style>
+/* Reset Global */
+body {
+  margin: 0;
+  font-family: 'Amazon Ember', Arial, sans-serif;
+  background-color: #E3E6E6; /* Fondo Gris Amazon */
+  color: #0F1111;
+}
+</style>
+
 <style scoped>
-/* Asegúrate de que los estilos existan o se añadan */
-header {
-  line-height: 1.5;
-  max-height: 100vh;
-  padding: 1rem 0;
-  background-color: #f8f8f8;
-  border-bottom: 1px solid #eee;
+/* --- HEADER PRINCIPAL --- */
+.header-container {
+  display: flex;
+  align-items: center;
+  height: 60px;
+  width: 100%; /* ANTES podía tener max-width, ahora es 100% */
+  max-width: none; /* Quitamos cualquier límite */
+  padding: 0 20px; /* Un poco de aire a los lados */
+  box-sizing: border-box;
+  gap: 20px;
+  justify-content: space-between;
 }
 
-.main-nav {
-  width: 100%;
-  font-size: 1rem;
-  text-align: center;
-  margin-top: 1rem;
+/* Asegúrate que .main-header también tenga esto */
+.main-header {
+  background-color: #131921;
+  color: white;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  width: 100%; /* Forzamos ancho completo */
 }
 
-.main-nav a {
-  display: inline-block;
-  padding: 0 1rem;
+/* LOGO - No se encoge */
+.header-left {
+  flex-shrink: 0;
+}
+
+.brand-logo {
   text-decoration: none;
-  font-weight: 500;
+  color: white;
+  display: flex;
+  align-items: center;
+  padding: 5px 10px;
+  border: 1px solid transparent;
+  border-radius: 2px;
 }
+.brand-logo:hover { border-color: white; }
+.logo-text { font-size: 1.4em; font-weight: bold; margin-left: 5px; white-space: nowrap; }
 
-.cart-link {
-    font-weight: bold;
-    color: #007bff;
-    border-left: 1px solid var(--color-border, #ccc); /* Separador opcional */
+/* BUSCADOR - Ocupa el espacio sobrante */
+.header-search {
+  flex-grow: 1; /* Esto es clave: crece para llenar el hueco */
+  min-width: 200px; /* Tamaño mínimo para no desaparecer */
 }
+.search-wrapper {
+  display: flex;
+  height: 40px;
+  border-radius: 4px;
+  overflow: hidden;
+}
+.search-select {
+  background-color: #f3f3f3;
+  border: none;
+  border-right: 1px solid #cdcdcd;
+  padding: 0 10px;
+  color: #555;
+  font-size: 0.8em;
+  cursor: pointer;
+  width: 60px;
+}
+.search-input {
+  flex-grow: 1;
+  border: none;
+  padding: 0 10px;
+  font-size: 1em;
+  width: 100%;
+}
+.search-input:focus { outline: none; }
+.search-btn {
+  background-color: #febd69;
+  border: none;
+  width: 45px;
+  cursor: pointer;
+  font-size: 1.2em;
+  transition: background 0.2s;
+}
+.search-btn:hover { background-color: #f3a847; }
+
+/* NAVEGACIÓN DERECHA - No se encoge y texto en una línea */
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  flex-shrink: 0; /* Evita que se aplaste */
+}
+.nav-item {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  color: white;
+  text-decoration: none;
+  padding: 5px 9px;
+  border: 1px solid transparent;
+  border-radius: 2px;
+  cursor: pointer;
+  position: relative;
+  white-space: nowrap; /* CLAVE: Evita que el texto baje de línea */
+}
+.nav-item:hover { border-color: white; }
+
+.nav-item small { font-size: 0.75em; color: #ccc; line-height: 1; }
+.account-text { font-size: 0.85em; font-weight: bold; line-height: 1.1; }
+
+/* CARRITO */
+.cart-item {
+  flex-direction: row;
+  align-items: flex-end;
+  gap: 2px;
+}
+.cart-icon-wrapper { position: relative; }
+.cart-icon { font-size: 2em; line-height: 1; }
+.cart-count {
+  position: absolute;
+  top: -2px;
+  left: 50%;
+  transform: translateX(-50%);
+  color: #f08804;
+  font-weight: bold;
+  font-size: 1em;
+}
+.cart-text { font-weight: bold; font-size: 0.9em; margin-bottom: 5px; }
+
+/* DROPDOWN */
+.dropdown-content {
+  display: none;
+  position: absolute;
+  top: 100%;
+  right: 0;
+  background-color: white;
+  min-width: 150px;
+  box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+  z-index: 1001;
+  border-radius: 3px;
+  overflow: hidden;
+}
+.dropdown-content a {
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+  font-size: 0.9em;
+}
+.dropdown-content a:hover { background-color: #f1f1f1; }
+.user-dropdown:hover .dropdown-content { display: block; }
+
+/* --- SUB HEADER --- */
+.sub-header {
+  background-color: #232f3e;
+  height: 39px;
+  display: flex;
+  align-items: center;
+  padding: 0 15px;
+  min-width: 1000px; /* Consistencia con header */
+}
+.sub-header-content a {
+  color: white;
+  text-decoration: none;
+  font-size: 0.9em;
+  margin-right: 20px;
+  padding: 5px 8px;
+  border: 1px solid transparent;
+  border-radius: 2px;
+  white-space: nowrap;
+}
+.sub-header-content a:hover { border-color: white; }
 </style>

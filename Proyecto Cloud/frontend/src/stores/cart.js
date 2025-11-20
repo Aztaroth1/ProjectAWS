@@ -30,6 +30,7 @@ export const useCartStore = defineStore('cart', () => {
         name: product.name,
         price: parseFloat(product.price),
         quantity: quantity,
+        image_url: product.image_url
       });
     }
   }

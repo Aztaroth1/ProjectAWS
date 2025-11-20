@@ -4,7 +4,9 @@ import CartView from '../views/CartView.vue'; // <--- NUEVA IMPORTACIÓN
 import LoginView from '../views/LoginView.vue'; // <--- NUEVA IMPORTACIÓN
 import AdminView from '../views/AdminView.vue'; // <--- IMPORTACIÓN DE VISTA ADMIN
 import { useAuthStore } from '@/stores/auth'; // Importar Store para validar rol
-
+import ProductDetailView from '../views/ProductDetailView.vue'; // <--- IMPORTACIÓN DE VISTA DETALLE PRODUCTO
+import { useToast } from "vue-toastification";
+const toast = useToast();
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
@@ -44,12 +46,16 @@ const router = createRouter({
             if (authStore.user && authStore.user.role === 'admin') {
                 next(); // Pasa
             } else {
-                alert('⛔ Acceso restringido a Administradores');
+                toast.error('Acceso restringido a Administradores');
                 next('/'); // Te manda al inicio
             }
         }
-    }
-    
+    },
+    { 
+      path: '/product/:id', // El :id es un parámetro dinámico
+      name: 'product-detail', 
+      component: ProductDetailView 
+    },  
   ],
 })
 

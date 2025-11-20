@@ -2,22 +2,28 @@
 import { RouterLink, RouterView } from 'vue-router';
 import { useCartStore } from '@/stores/cart';
 import { useAuthStore } from '@/stores/auth';
-import { useProductStore } from '@/stores/products'; // <--- 1. IMPORTAR STORE DE PRODUCTOS
+import { useProductStore } from '@/stores/products';
 
 const cartStore = useCartStore();
 const authStore = useAuthStore();
-const productStore = useProductStore(); // <--- 2. INICIALIZAR STORE
+const productStore = useProductStore();
+
+// Función para el botón "Volver arriba" del footer
+const scrollToTop = () => {
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+};
 </script>
 
 <template>
   <div class="app-layout">
+    
     <header class="main-header">
       <div class="header-container">
         
         <div class="header-left">
           <RouterLink to="/" class="brand-logo">
             <span class="logo-icon">📦</span>
-            <span class="logo-text">MiShop</span>
+            <span class="logo-text">AS</span>
           </RouterLink>
         </div>
 
@@ -59,10 +65,51 @@ const productStore = useProductStore(); // <--- 2. INICIALIZAR STORE
           </RouterLink>
         </div>
       </div>
-      
     </header>
 
     <RouterView />
+
+    <footer class="amazon-footer">
+      <div class="back-to-top" @click="scrollToTop">
+        Volver arriba
+      </div>
+
+      <div class="footer-links-container">
+        <div class="footer-col">
+          <h3>Conócenos</h3>
+          <ul>
+            <li><a href="#">Sobre AS</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h3>Gana dinero con nosotros</h3>
+          <ul>
+            <li><a href="#">Programa de afiliados</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h3>Métodos de pago</h3>
+          <ul>
+            <li><a href="#">Tarjetas de crédito</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <div class="footer-logo">
+           <span class="logo-icon">📦</span> AS
+        </div>
+        <div class="footer-legal">
+          <ul>
+            <li><a href="#">Condiciones de Uso</a></li>
+            <li><a href="#">Aviso de Privacidad</a></li>
+            <li><a href="#">Cookies</a></li>
+          </ul>
+          <p>© 1996-2024, as.com, Inc. o sus afiliados</p>
+        </div>
+      </div>
+    </footer>
+
   </div>
 </template>
 
@@ -71,39 +118,38 @@ const productStore = useProductStore(); // <--- 2. INICIALIZAR STORE
 body {
   margin: 0;
   font-family: 'Amazon Ember', Arial, sans-serif;
-  background-color: #E3E6E6; /* Fondo Gris Amazon */
+  background-color: #E3E6E6;
   color: #0F1111;
 }
 </style>
 
 <style scoped>
-/* --- HEADER PRINCIPAL --- */
+/* --- HEADER PRINCIPAL (STICKY) --- */
+.main-header {
+  background-color: #131921;
+  color: white;
+  /* ESTAS 3 LÍNEAS HACEN QUE SE PEGUE AL BAJAR */
+  position: sticky;
+  top: 0;
+  z-index: 2000; /* Alto z-index para estar encima del carrusel */
+  width: 100%;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
 .header-container {
   display: flex;
   align-items: center;
   height: 60px;
-  width: 100%; /* ANTES podía tener max-width, ahora es 100% */
-  max-width: none; /* Quitamos cualquier límite */
-  padding: 0 20px; /* Un poco de aire a los lados */
+  width: 100%;
+  max-width: none;
+  padding: 0 20px;
   box-sizing: border-box;
   gap: 20px;
   justify-content: space-between;
 }
 
-/* Asegúrate que .main-header también tenga esto */
-.main-header {
-  background-color: #131921;
-  color: white;
-  position: sticky;
-  top: 0;
-  z-index: 1000;
-  width: 100%; /* Forzamos ancho completo */
-}
-
-/* LOGO - No se encoge */
-.header-left {
-  flex-shrink: 0;
-}
+/* LOGO */
+.header-left { flex-shrink: 0; }
 
 .brand-logo {
   text-decoration: none;
@@ -117,26 +163,16 @@ body {
 .brand-logo:hover { border-color: white; }
 .logo-text { font-size: 1.4em; font-weight: bold; margin-left: 5px; white-space: nowrap; }
 
-/* BUSCADOR - Ocupa el espacio sobrante */
+/* BUSCADOR */
 .header-search {
-  flex-grow: 1; /* Esto es clave: crece para llenar el hueco */
-  min-width: 200px; /* Tamaño mínimo para no desaparecer */
+  flex-grow: 1;
+  min-width: 200px;
 }
 .search-wrapper {
   display: flex;
   height: 40px;
   border-radius: 4px;
   overflow: hidden;
-}
-.search-select {
-  background-color: #f3f3f3;
-  border: none;
-  border-right: 1px solid #cdcdcd;
-  padding: 0 10px;
-  color: #555;
-  font-size: 0.8em;
-  cursor: pointer;
-  width: 60px;
 }
 .search-input {
   flex-grow: 1;
@@ -156,12 +192,12 @@ body {
 }
 .search-btn:hover { background-color: #f3a847; }
 
-/* NAVEGACIÓN DERECHA - No se encoge y texto en una línea */
+/* NAVEGACIÓN DERECHA */
 .header-right {
   display: flex;
   align-items: center;
   gap: 15px;
-  flex-shrink: 0; /* Evita que se aplaste */
+  flex-shrink: 0;
 }
 .nav-item {
   display: flex;
@@ -174,7 +210,7 @@ body {
   border-radius: 2px;
   cursor: pointer;
   position: relative;
-  white-space: nowrap; /* CLAVE: Evita que el texto baje de línea */
+  white-space: nowrap;
 }
 .nav-item:hover { border-color: white; }
 
@@ -230,7 +266,8 @@ body {
   display: flex;
   align-items: center;
   padding: 0 15px;
-  min-width: 1000px; /* Consistencia con header */
+  min-width: 1000px;
+  border-top: 1px solid rgba(255,255,255,0.1);
 }
 .sub-header-content a {
   color: white;
@@ -243,4 +280,99 @@ body {
   white-space: nowrap;
 }
 .sub-header-content a:hover { border-color: white; }
+
+/* --- FOOTER TIPO AMAZON --- */
+.amazon-footer {
+  margin-top: 50px;
+  background-color: #131921;
+  color: white;
+  font-size: 0.9em;
+}
+
+/* Botón Volver Arriba */
+.back-to-top {
+  background-color: #37475A;
+  color: white;
+  text-align: center;
+  padding: 15px;
+  cursor: pointer;
+  font-size: 0.9em;
+  font-weight: 600;
+}
+.back-to-top:hover {
+  background-color: #485769;
+}
+
+/* Contenedor de Enlaces */
+.footer-links-container {
+  background-color: #232F3E;
+  display: flex;
+  justify-content: center;
+  padding: 40px 10%;
+  gap: 60px;
+  border-bottom: 1px solid #3a4553;
+  flex-wrap: wrap; 
+}
+
+.footer-col h3 {
+  font-size: 1em;
+  font-weight: 700;
+  margin-bottom: 15px;
+  color: white;
+}
+
+.footer-col ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.footer-col ul li { margin-bottom: 10px; }
+
+.footer-col ul li a {
+  color: #DDD;
+  text-decoration: none;
+  font-size: 0.85em;
+}
+.footer-col ul li a:hover { text-decoration: underline; }
+
+/* Footer Inferior */
+.footer-bottom {
+  background-color: #131921;
+  padding: 30px 0;
+  text-align: center;
+}
+
+.footer-logo {
+  font-size: 1.5em;
+  font-weight: bold;
+  margin-bottom: 15px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+}
+
+.footer-legal ul {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  margin-bottom: 10px;
+}
+
+.footer-legal ul li a {
+  color: #DDD;
+  text-decoration: none;
+  font-size: 0.8em;
+}
+
+.footer-legal ul li a:hover { text-decoration: underline; }
+
+.footer-legal p {
+  font-size: 0.75em;
+  color: #DDD;
+  margin-top: 10px;
+}
 </style>

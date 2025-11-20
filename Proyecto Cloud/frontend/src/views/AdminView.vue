@@ -1,7 +1,9 @@
 <script setup>
 import { ref, onMounted } from 'vue';
 import { getProducts, createProduct, deleteProduct, updateProduct } from '@/api/productService';
-
+import { useToast } from "vue-toastification";
+import Swal from 'sweetalert2';
+const toast = useToast();
 const products = ref([]);
 const isEditing = ref(false);
 const editingId = ref(null);
@@ -41,16 +43,16 @@ async function saveProduct() {
 
         if (isEditing.value) {
             await updateProduct(editingId.value, formData);
-            alert('Producto actualizado');
+            toast.success('Producto actualizado');
         } else {
             await createProduct(formData);
-            alert('Producto creado');
+            toast.success('Producto creado');
         }
 
         resetForm();
         loadProducts();
     } catch (error) {
-        alert('Error al guardar: ' + error.response?.data?.error || error.message);
+        toast.error('Error al guardar: ' + error.response?.data?.error || error.message);
     }
 }
 
@@ -68,12 +70,39 @@ function editItem(product) {
 
 // Eliminar
 async function deleteItem(id) {
-    if(!confirm('¿Estás seguro de eliminar este producto?')) return;
+    // En lugar del confirm() feo, usamos Swal.fire
+    const result = await Swal.fire({
+        title: '¿Estás seguro?',
+        text: "No podrás revertir esta acción. El producto se eliminará permanentemente.",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#d33', // Rojo para peligro
+        cancelButtonColor: '#3085d6', // Azul para cancelar
+        confirmButtonText: 'Sí, eliminar',
+        cancelButtonText: 'Cancelar'
+    });
+
+    // Si el usuario dio click en "Cancelar", no hacemos nada
+    if (!result.isConfirmed) return;
+
     try {
         await deleteProduct(id);
-        loadProducts();
+        
+        // Mensaje de éxito bonito
+        Swal.fire(
+            '¡Eliminado!',
+            'El producto ha sido eliminado.',
+            'success'
+        );
+        
+        loadProducts(); // Recargar la lista
     } catch (error) {
-        alert('Error al eliminar');
+        // Mensaje de error bonito
+        Swal.fire(
+            'Error',
+            'No se pudo eliminar el producto (quizás ya fue comprado).',
+            'error'
+        );
     }
 }
 

@@ -2,9 +2,10 @@
 import { ref } from 'vue';
 import { useAuthStore } from '@/stores/auth';
 import { useRouter } from 'vue-router';
-
+import { useToast } from "vue-toastification";
 const authStore = useAuthStore();
 const router = useRouter();
+const toast = useToast();
 
 // Estado del formulario
 const isLogin = ref(true); // true = Login, false = Registro
@@ -20,12 +21,12 @@ async function handleSubmit() {
     if (isLogin.value) {
       // Lógica de Login
       await authStore.login(email.value, password.value);
-      alert('¡Bienvenido de nuevo!');
+      toast.success('¡Bienvenido de nuevo!');
       router.push('/cart'); // Redirigir al carrito para pagar
     } else {
       // Lógica de Registro
       await authStore.register(email.value, password.value, fullName.value);
-      alert('Cuenta creada con éxito. Ahora inicia sesión.');
+      toast.success('Cuenta creada con éxito. Ahora inicia sesión.');
       isLogin.value = true; // Cambiar a pestaña de login
     }
   } catch (error) {

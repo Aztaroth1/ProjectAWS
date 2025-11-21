@@ -2,7 +2,7 @@
 -- PostgreSQL database dump
 --
 
-\restrict d9Fgp2IHBXqcp4oCsJ00YchqQlPra1ymu1jOkAK5CR5OsaIdTlSEucguy1T4Acr
+\restrict RPbrEXSlu3iuDZndxGGgStkNIMTCExOVPKEEJeHlBq8LpBhw2FqqaVo1R8gTGnc
 
 -- Dumped from database version 17.7
 -- Dumped by pg_dump version 17.7
@@ -224,6 +224,8 @@ COPY public.order_items (id, order_id, product_id, quantity, price_at_purchase) 
 15	14	2	1	1050.00
 16	14	8	1	1600.00
 17	14	9	1	800.00
+18	15	6	1	900.00
+19	16	6	1	900.00
 \.
 
 
@@ -246,6 +248,8 @@ COPY public.orders (id, total_amount, status, created_at, user_id) FROM stdin;
 12	899.99	completed	2025-11-19 21:23:01.831265-05	1
 13	2000.00	completed	2025-11-19 22:26:05.726772-05	2
 14	4350.00	completed	2025-11-19 23:01:01.81215-05	5
+15	900.00	completed	2025-11-20 20:17:36.183015-05	2
+16	900.00	completed	2025-11-20 20:19:30.137234-05	2
 \.
 
 
@@ -256,7 +260,7 @@ COPY public.orders (id, total_amount, status, created_at, user_id) FROM stdin;
 COPY public.products (id, name, description, price, stock, image_url, created_at) FROM stdin;
 10	Samsung galaxy s25 ultra	El Galaxy S25 Ultra es la joya de la serie S25: combina un diseño de titanio ultrarresistente con un rendimiento brutal impulsado por inteligencia artificial. Su pantalla AMOLED 2X de 6,9″ y 120 Hz te da una experiencia visual fluida y vibrante, mientras que su sistema de cámaras (incluyendo un sensor principal de 200 MP) captura cada detalle con una claridad sorprendente. Además, integra funciones avanzadas de IA para ayudarte en tareas del día a día, junto con el S Pen para productividad. Perfecto para quienes buscan potencia, creatividad y un dispositivo futurista.\r\n\r\nEspecificaciones técnicas\r\nPantalla: 6,9″ QHD+ Dynamic AMOLED 2X, 1-120 Hz. \r\nProcesador: Snapdragon 8 Elite para Galaxy. \r\nMemoria / Almacenamiento: 12 GB + 256 GB / 512 GB / 1 TB. \r\nSamsung Global Newsroom\r\nEL ESPAÑOL\r\nCámaras traseras:\r\n200 MP (gran angular, OIS) \r\nAndroid Update Tracker\r\nSamsung Global Newsroom\r\n50 MP (ultra gran angular) \r\n50 MP (telefoto 5×, OIS) \r\n10 MP (telefoto 3×, OIS) \r\nCámara frontal: 12 MP. \r\nBatería: 5.000 mAh. \r\nPor cable: 45 W según Samsung. \r\nInalámbrica: sí (Galaxy informa carga inalámbrica rápida) \r\nConectividad: 5G, Wi-Fi 7. \r\nSeguridad / Extras: Lector de huella ultrasónico bajo la pantalla, IP68 (resistencia al agua y polvo). \r\nSistema operativo: One UI 7, basado en Android 15. \r\nMateriales / Diseño: Marco de titanio + vidrio Corning Gorilla Armor 2. \r\nDimensiones / Peso: 162,8 × 77,6 × 8,2 mm; ~218 g. \r\n	1399.99	10	uploads\\image-1763607830645.png	2025-11-19 22:03:50.68926-05
 1	Lenovo Ideapad 5	Lenovo IdeaPad 5 ofrece un rendimiento rápido y confiable para trabajo, estudio y entretenimiento, con un diseño delgado y elegante ideal para llevar a cualquier parte.\r\n\r\nEspecificaciones técnicas:\r\n\r\nProcesador: AMD Ryzen 5 5500U\r\n\r\nMemoria RAM: 8 GB DDR4\r\n\r\nAlmacenamiento: 512 GB SSD\r\n\r\nPantalla: 15.6" Full HD (1920 × 1080)\r\n\r\nGráficos: AMD Radeon Graphics\r\n\r\nSistema Operativo: Windows 11\r\n\r\nConectividad: WiFi 6, Bluetooth 5.1\r\n\r\nPuertos: USB-C, USB 3.1, HDMI, lector de tarjetas SD\r\n\r\nPeso: 1.66 kg	1000.00	8	uploads\\image-1763606133313.png	2025-11-18 09:56:25.960784-05
-6	ASUS ROG Strix G15	ASUS ROG Strix G15 (2022) está diseñada para los jugadores más exigentes. Con una gráfica de alto rendimiento y un sistema de refrigeración optimizado, te da la potencia necesaria para dominar tanto en juegos AAA como en esports, sin sacrificar portabilidad ni estilo.\r\n\r\nEspecificaciones técnicas:\r\n\r\nProcesador: AMD Ryzen 9 6900HX \r\nTarjeta de video: NVIDIA GeForce RTX 3070 Ti (8 GB GDDR6) \r\nPantalla: 15,6″ IPS FHD (1920 × 1080) con tasa de refresco de hasta 300 Hz \r\nMemoria: 16 GB DDR4 (hasta 32 GB admitidos) \r\nAlmacenamiento: SSD NVMe (modelos con opción de varias ranuras) \r\nSistema operativo: Windows 11 Home \r\nBatería: 90 Wh (según otros modelos similares) \r\nConectividad: Wi-Fi 6, varios puertos USB y HDMI (según versión) \r\nPeso: Aproximadamente 2.3 kg según algunas versiones. \r\nB&H Photo Video\r\nDiseño: Teclado RGB por tecla, chasis con ventilación optimizada. \r\n	900.00	2	uploads\\image-1763606703567.png	2025-11-19 21:45:03.613412-05
+6	ASUS ROG Strix G15	ASUS ROG Strix G15 (2022) está diseñada para los jugadores más exigentes. Con una gráfica de alto rendimiento y un sistema de refrigeración optimizado, te da la potencia necesaria para dominar tanto en juegos AAA como en esports, sin sacrificar portabilidad ni estilo.\r\n\r\nEspecificaciones técnicas:\r\n\r\nProcesador: AMD Ryzen 9 6900HX \r\nTarjeta de video: NVIDIA GeForce RTX 3070 Ti (8 GB GDDR6) \r\nPantalla: 15,6″ IPS FHD (1920 × 1080) con tasa de refresco de hasta 300 Hz \r\nMemoria: 16 GB DDR4 (hasta 32 GB admitidos) \r\nAlmacenamiento: SSD NVMe (modelos con opción de varias ranuras) \r\nSistema operativo: Windows 11 Home \r\nBatería: 90 Wh (según otros modelos similares) \r\nConectividad: Wi-Fi 6, varios puertos USB y HDMI (según versión) \r\nPeso: Aproximadamente 2.3 kg según algunas versiones. \r\nB&H Photo Video\r\nDiseño: Teclado RGB por tecla, chasis con ventilación optimizada. \r\n	900.00	3	uploads\\image-1763606703567.png	2025-11-19 21:45:03.613412-05
 5	ASUS VivoBook S15	ASUS VivoBook S15 S533 es un portátil elegante y moderno, ideal para estudiantes y profesionales que necesitan un equipo equilibrado entre rendimiento, diseño y portabilidad.\r\n\r\nEspecificaciones técnicas:\r\nProcesador: Intel Core i5-10210U / i7-10510U \r\nMemoria RAM: 8 GB DDR4 \r\nAlmacenamiento: SSD PCIe NVMe de 256 GB / 512 GB / 1 TB \r\nPantalla: 15.6″ Full HD (1920 × 1080), IPS, biseles delgados, relación pantalla-cuerpo del 86% \r\nGráficos: Intel UHD / NVIDIA GeForce MX250 \r\nSistema operativo: Windows 10 Home (recomiendan Windows 10 Pro para empresas) \r\nConectividad: USB-C, USB 3.2, HDMI, lector microSD \r\nTeclado: Retroiluminado, cómodo para escribir \r\nCámara: 720p HD \r\n	440.00	8	uploads\\image-1763606554060.png	2025-11-19 21:42:34.211098-05
 7	Lenovo Legion 5	Lenovo Legion 5 es un portátil gamer diseñado para ofrecer gran rendimiento en juegos exigentes, con un sistema de refrigeración eficiente y una pantalla rápida que maximiza tu experiencia competitiva. Su construcción robusta y teclado RGB aportan una sensación premium sin sacrificar funcionalidad.\r\n\r\nEspecificaciones técnicas:\r\nProcesador: AMD Ryzen 7 5800H (8 núcleos, hasta 4.4 GHz)\r\nMemoria RAM: 16 GB DDR4-3200 (2×8) \r\nAlmacenamiento: 512 GB SSD NVMe \r\nTarjeta gráfica: NVIDIA GeForce RTX 3060 (6 GB GDDR6) \r\nPantalla: 15,6″ Full HD (1920 × 1080), IPS, hasta 165 Hz \r\nConectividad: Wi-Fi 6, Bluetooth 5.1 \r\nPuertos: USB-C, HDMI 2.1, varios USB 3.2, Ethernet RJ-45 \r\nBatería: Aproximadamente 60 Wh \r\nPeso: ~2,4 kg \r\nSistema de audio: altavoces estéreo con Nahimic Audio \r\n	1350.00	10	uploads\\image-1763606880363.png	2025-11-19 21:48:00.4083-05
 12	Motorola Moto G Play	Rendimiento Qualcomm increíblemente rápido. Obtén la velocidad que necesitas para un gran entretenimiento con un procesador Snapdragon 680 y 4 GB de RAM.\r\nPantalla fluida + sonido estéreo inmersivo. Dale vida a tu entretenimiento con una pantalla ultra ancha de 6.5" 90Hz* HD+ más altavoces estéreo, Dolby Atmos y audio de alta resolución**.\r\nCámara Quad Pixel de 50 MP. Captura fotos más nítidas y vibrantes de día o de noche con 4 veces la sensibilidad a la luz.\r\nAlmacenamiento integrado de 64 GB****. Obtén mucho espacio para fotos, películas, canciones y aplicaciones, y agrega hasta 1 TB más con una tarjeta microSD*****.\r\nIncreíble duración de la batería. Trabaja y juega sin parar con una batería de 5000 mAh de larga duración. *****\r\nDiseño elegante y elegante. Cuidadosamente elaborado con materiales de primera calidad, con un aspecto aerodinámico, acabado mate duradero y protección contra salpicaduras.\r\n* El modo automático tiene una frecuencia de actualización mínima del dispositivo de 60Hz y una frecuencia de actualización máxima de 90Hz; la frecuencia de actualización real puede ser menor y variará según las limitaciones y requisitos de la aplicación/contenido, la configuración del modo del dispositivo y otros factores. **Se puede utilizar solo con auriculares y aplicaciones con cable compatibles de alta resolución. Verifique los dispositivos y aplicaciones aplicables para determinar la compatibilidad.	149.99	10	uploads\\image-1763608444709.png	2025-11-19 22:12:19.67225-05
@@ -274,9 +278,12 @@ COPY public.products (id, name, description, price, stock, image_url, created_at
 COPY public.users (id, email, password, full_name, role, created_at) FROM stdin;
 1	stivenguapucal2003@hotmail.com	$2b$10$lI0qyWbNsXTm2kxxbMskI.UqGMytP6WeA1LgDkfvESUKg3Sx9J7Vq	Stiven	admin	2025-11-18 20:57:30.594388-05
 2	sebasfiallos2000@hotmail.com	$2b$10$vkhxV53C7FiiPXp5NJYIi.a3LfydP9vx3BFa9TrDph1sovGW6h1py	Sebas	client	2025-11-18 21:53:37.506272-05
-3	jessicam1956@hotmail.com	$2b$10$ES726CeTZKMZOK7hl7yyi.vOmkWWJWDftH3aGfF5dcSoV9V0hp75.	Jessica	client	2025-11-18 22:07:29.143973-05
 4	fernandoguapucal1992@hotmail.com	$2b$10$MA/GtuZ4HBSsquYpUVv5WOeAFsO1TIkTKi10GgXg2/7nSwZoaSsfu	Fernando	client	2025-11-19 20:21:02.213051-05
 5	santiagoango@hotmail.com	$2b$10$HTmt9Ckkm.34nYCw2Dk5xenuZ/EDrkrvhEgF5boizyN8uoBQfAIIi	Santiago 	client	2025-11-19 22:59:14.575518-05
+6	rafaelrodriguez@hotmail.com	$2b$10$zqtQhQ9VUGvTg1ACwzmScuPGhg5Oq6ri4Ih4Y/r5a5QjzKY/H3jDi	Rafael	admin	2025-11-20 19:51:12.806357-05
+8	cesarsarango@hotmail.com	$2b$10$urDFHGUJLOUiZd9nyWBP2O34srQl/8QaQ7gZbNv/7uzYNdzENHapy	César 	admin	2025-11-20 19:53:10.383742-05
+7	domenicaplaza@hotmail.com	$2b$10$7nnLcYOzXw4QpZA2/5uSVe0AZSXhSKHX1rmwM4zfFg94sqpmyuHz.	Doménica	admin	2025-11-20 19:52:12.984005-05
+3	jessicam1956@hotmail.com	$2b$10$ES726CeTZKMZOK7hl7yyi.vOmkWWJWDftH3aGfF5dcSoV9V0hp75.	Jessica	admin	2025-11-18 22:07:29.143973-05
 \.
 
 
@@ -284,14 +291,14 @@ COPY public.users (id, email, password, full_name, role, created_at) FROM stdin;
 -- Name: order_items_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.order_items_id_seq', 17, true);
+SELECT pg_catalog.setval('public.order_items_id_seq', 19, true);
 
 
 --
 -- Name: orders_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.orders_id_seq', 14, true);
+SELECT pg_catalog.setval('public.orders_id_seq', 16, true);
 
 
 --
@@ -305,7 +312,7 @@ SELECT pg_catalog.setval('public.products_id_seq', 13, true);
 -- Name: users_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.users_id_seq', 5, true);
+SELECT pg_catalog.setval('public.users_id_seq', 8, true);
 
 
 --
@@ -376,5 +383,5 @@ ALTER TABLE ONLY public.orders
 -- PostgreSQL database dump complete
 --
 
-\unrestrict d9Fgp2IHBXqcp4oCsJ00YchqQlPra1ymu1jOkAK5CR5OsaIdTlSEucguy1T4Acr
+\unrestrict RPbrEXSlu3iuDZndxGGgStkNIMTCExOVPKEEJeHlBq8LpBhw2FqqaVo1R8gTGnc
 

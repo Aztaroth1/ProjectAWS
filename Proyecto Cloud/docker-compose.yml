@@ -1,0 +1,43 @@
+version: '3.8'
+
+services:
+  # 1. Base de Datos
+  db:
+    image: postgres:15-alpine
+    container_name: ecommerce-db
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password123
+      POSTGRES_DB: ecommerce_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - db-data:/var/lib/postgresql/data
+
+  # 2. Backend
+  backend:
+    build: ./backend       # <--- IMPORTANTE: Le dice que use tu código nuevo
+    container_name: ecommerce-backend
+    ports:
+      - "3000:3000"
+    environment:
+      - DB_HOST=db
+      - DB_USER=postgres
+      - DB_PASSWORD=password123
+      - DB_NAME=ecommerce_db
+      - DB_PORT=5432
+      - PORT=3000
+    depends_on:
+      - db
+
+  # 3. Frontend
+  frontend:
+    build: ./frontend      # <--- IMPORTANTE: Le dice que use tu código nuevo
+    container_name: ecommerce-frontend
+    ports:
+      - "8080:80"
+    depends_on:
+      - backend
+
+volumes:
+  db-data:

@@ -1,24 +1,54 @@
-// server.js
+// backend/server.js
 const path = require('path');
 const express = require('express');
 const cors = require('cors');
-const authRoutes = require('./routes/authRoutes'); //Autenticación
-require('dotenv').config(); 
-console.log('Password leída:', process.env.DB_PASSWORD);
-// Importamos nuestro módulo de conexión a la DB
+const helmet = require('helmet');
+const rateLimit = require('express-rate-limit');
+require('dotenv').config();
+
+// Importación de Rutas y Configuración
 const db = require('./config/db'); 
+const authRoutes = require('./routes/authRoutes');
 const productRoutes = require('./routes/productRoutes');
 const orderRoutes = require('./routes/orderRoutes');
 
 const app = express();
-app.use(cors()); 
-app.use(express.json()); 
-app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
-app.use('/api/products', productRoutes); // <--- NUEVA: Usar el Router
-app.use('/api/orders', orderRoutes); // <--- 2. USAR LA RUTA DE ORDENES
-app.use('/api/auth', authRoutes); // Rutas de autenticación
 
-// Ruta de prueba
+// --- CAPA DE SEGURIDAD ---
+
+// 1. Helmet: Protege cabeceras HTTP
+// (crossOriginResourcePolicy: false es necesario para ver las imágenes de la carpeta uploads)
+app.use(helmet({ crossOriginResourcePolicy: false }));
+
+// 2. Rate Limiting: Evita ataques de fuerza bruta o DoS
+const limiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutos
+  max: 100, // Límite de 100 peticiones por IP
+  message: 'Demasiadas peticiones desde esta IP, intenta de nuevo en 15 minutos.'
+});
+app.use(limiter);
+
+// 3. CORS: Control de acceso
+// Solo permitimos peticiones desde tu Frontend (localhost:5173)
+app.use(cors({
+    origin: ['http://localhost:5173', 'http://127.0.0.1:5173', 'http://localhost:8080'], // Permitimos ambas variantes locales
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    allowedHeaders: ['Content-Type', 'Authorization']
+}));
+
+// --- CONFIGURACIÓN GENERAL ---
+
+app.use(express.json()); // Para entender JSON
+
+// Carpeta pública para imágenes
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+
+// --- RUTAS DE LA API ---
+app.use('/api/auth', authRoutes);
+app.use('/api/products', productRoutes);
+app.use('/api/orders', orderRoutes);
+
+// Ruta de prueba base
 app.get('/', (req, res) => {
   res.status(200).json({ 
     message: '¡Bienvenido a la API REST del E-commerce!',
@@ -26,12 +56,12 @@ app.get('/', (req, res) => {
   });
 });
 
+// --- INICIO DEL SERVIDOR ---
 const PORT = process.env.PORT || 3000;
 
-// Función para iniciar el servidor
 const startServer = async () => {
     try {
-        // Intenta conectar a la base de datos
+        // Prueba de conexión a DB
         await db.pool.connect();
         console.log('✅ Conexión exitosa a PostgreSQL (ecommerce_db).');
 

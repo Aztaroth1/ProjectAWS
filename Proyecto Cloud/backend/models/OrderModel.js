@@ -16,7 +16,7 @@ class OrderModel {
 
         // Validamos si alcanza
         if (currentStock < item.quantity) {
-            throw new Error(`No hay suficiente stock para el producto ID: ${item.productId}. Stock actual: ${currentStock}`);
+            throw new Error(`No hay suficiente stock del producto: ${item.name}. Stock actual: ${currentStock}`);
         }
 
         // Restamos el stock
